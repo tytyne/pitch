@@ -4,7 +4,7 @@ from . import main
 
 from flask import render_template, request, redirect, url_for, abort
 from ..models import User,Role,Pitch,Comment
-from .forms import UpdateProfile, CreatePitchs
+from .forms import UpdateProfile, CreatePitchs, CommentForm
 from .. import db
 from flask_login import login_required, current_user
 import markdown2
@@ -57,22 +57,19 @@ def create_pitchs():
     return render_template('pitch.html', form=form, user=current_user)
 
 
-@main.route('/comment/<int:id>')
+@main.route('/pitch/comment/<int:id>', methods=['GET', 'POST'])
 @login_required
 def create_comments(id):
-    # {{ url_for( 'main.create_pitchs') }}
-
     form = CommentForm()
-    print(current_user.id)
+   
     if form.validate_on_submit():
 
         comment = form.comment.data
 
-        new_comment = Comment(
-            comment=comment, pitchs_id=id, user=current_user.id)
+        new_comment = Comment(comment=comment, pitch_id=id,user_id=current_user.id)
         db.session.add(new_comment)
         db.session.commit()
 
-    comment = Comment.query.filter_by(pitchs_id=id).all()
+    comment = Comment.query.filter_by(pitch_id=id).all()
 
     return render_template('comment.html', comment=comment, form=form)
