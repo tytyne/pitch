@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+<body>
+    {% block styles%} {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}"> {% endblock %} {% block content %}
+
+    <div class="container">
+
+        <h1 id="heading">Welcome to pitches</h1>
+        <div class='base'>
+            <a href="{{url_for('main.create_pitchs')}}">Create Pitch</a>
+        </div>
+        {% for hell in pitch %}
+        <p>{{hell.user.username}}</p>
+        <p>{{hell.pitch}}</p>
+        <div class="base-sm">
+            <a href="/comment/new/{{hell.id}}"><button id="but">comments</button></a><br>
+            <button><img src="https://www.northernsun.com/images/imagelarge/Heart-Small-Button-(0008).jpg"
+                    height="20"></button><button><img src="https://previews.123rf.com/images/valentint/valentint1704/valentint170400501/75332280-broken-heart-icon-broken-heart-website-button-on-white-background-.jpg"
+                    height="20"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock%}
+</body>
