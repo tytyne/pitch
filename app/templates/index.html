@@ -12,8 +12,16 @@
         </div>
         {% for hell in pitch %}
         <p>{{hell.pitch}}</p>
+
+        <div class="base-lg">
+            {% for hell in comment %}
+            <p>--{{hell.comment}}</p>
+            {% endfor %}
+        </div>
+
         <div class="base-sm">
             <!-- <a href="/comment/new/{{hell.id}}"><button id="but">comments</button></a><br> -->
+
             <a href="/pitch/comment/{{hell.id}}"><button id="comment">comments</button></a><br>
             <button><img src="https://www.northernsun.com/images/imagelarge/Heart-Small-Button-(0008).jpg"
                     height="20"></button><button><img src="https://previews.123rf.com/images/valentint/valentint1704/valentint170400501/75332280-broken-heart-icon-broken-heart-website-button-on-white-background-.jpg"

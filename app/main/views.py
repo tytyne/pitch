@@ -13,12 +13,31 @@ import markdown2
 
 @main.route('/')
 def index():
-    '''
-    View root page function that returns the index page and its data
-    '''
+    business = Pitch.get_pitches(' business')
+    general = Pitch.get_pitches('general')
+
     title = 'pitch'
     pitch = Pitch.query.all()
-    return render_template('index.html', title=title, pitch=pitch)
+    return render_template('index.html', title=title, pitch=pitch  business=business, general=general)
+
+
+@main.route('/pitches/business')
+def pickup():
+    pitches = Pitch.get_pitches('business')
+
+    return render_template('business.html', pitches=pitches)
+
+
+@main.route('/pitches/general')
+def general():
+    pitches = Pitch.get_pitches('general')
+
+    return render_template('general.html', pitches=pitches)
+
+
+
+
+
 
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
 @login_required
