@@ -54,7 +54,7 @@ class Pitch(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         pitch = db.Column(db.String(255))
         user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-        comment = db.relationship("Comment", backref="pitch", lazy="dynamic")
+        comment = db.relationship('Comment',backref =  'pitch_id',lazy = "dynamic")
 
         def save_pitch(self):
             db.session.add(self)

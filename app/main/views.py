@@ -35,10 +35,6 @@ def general():
     return render_template('general.html', pitches=pitches)
 
 
-
-
-
-
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
 @login_required
 def update_profile(uname):
