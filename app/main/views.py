@@ -42,12 +42,12 @@ def update_profile(uname):
 @main.route('/pitch', methods=['GET', 'POST'])
 def create_pitchs():
     form = CreatePitchs()
-
+    print(current_user.id)
     if form.validate_on_submit():
 
         pitch = form.pitch.data
 
-        new_pitch = Pitch(pitch=pitch, user_id=current_user)
+        new_pitch = Pitch(pitch=pitch, user_id=current_user.id)
 
         db.session.add(new_pitch)
         db.session.commit()
@@ -63,13 +63,13 @@ def create_comments(id):
     # {{ url_for( 'main.create_pitchs') }}
 
     form = CommentForm()
-
+    print(current_user.id)
     if form.validate_on_submit():
 
         comment = form.comment.data
 
         new_comment = Comment(
-            comment=comment, pitchs_id=id, user=current_user)
+            comment=comment, pitchs_id=id, user=current_user.id)
         db.session.add(new_comment)
         db.session.commit()
 
