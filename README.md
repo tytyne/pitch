@@ -40,17 +40,17 @@ SQLAlchemy errors, automatic sign out has a short time span
 
 Technologies Used
 
-Python
+.Python
 
-Git Hub
+.Git Hub
 
-Terminal
+.Terminal
 
-HTML
+.HTML
 
-Heroku
+.Heroku
 
-Postgresql
+.Postgresql
 
 Support and contact details
 
