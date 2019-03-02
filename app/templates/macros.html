@@ -2,8 +2,8 @@
 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 review-card">
     <div class="well well-lg">
 
-        <p>{{pitch.pitch| truncate(100)}}</p>
-        <p>Written by: {{pitch.user.username}} <a href="/pitch/{{pitch.id}}" class="btn btn-primary pull-right">Enter your pitch</a>
+        <p>{{pitch.pitch_title| truncate(100)}}</p>
+        <p>Written by: {{pitch.pitch_content}} <a href="/pitch/{{pitch.id}}" class="btn btn-primary pull-right">Enter your pitch</a>
         </p>
     </div>
 </div>

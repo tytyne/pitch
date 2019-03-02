@@ -72,7 +72,7 @@ class Pitch(db.Model):
         @classmethod
         def get_pitchie(cls, id):
             pitchs = Pitch.query.filter_by(id=id).first()
-            return pitch
+            return pitchs
 
 
         

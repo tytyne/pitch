@@ -23,15 +23,15 @@ def index():
 
 @main.route('/pitchs/business')
 def business():
-    pitchs = Pitch.get_pitchs('business')
-
+    pitchs = Pitch.get_pitchs('Busines pitch')
+    print(pitchs)
     return render_template('business.html', pitchs=pitchs)
 
 
 @main.route('/pitchs/general')
 def general():
     pitchs = Pitch.get_pitchs('general')
-
+    print(pitchs)
     return render_template('general.html', pitchs=pitchs)
 
 
