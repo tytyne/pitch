@@ -24,4 +24,4 @@ class CreatePitchs(FlaskForm):
 
 class CommentForm(FlaskForm):
     comment = TextAreaField('leave The The Comment', validators=[Required()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('add your comment')

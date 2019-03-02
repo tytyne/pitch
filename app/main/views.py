@@ -13,26 +13,26 @@ import markdown2
 
 @main.route('/')
 def index():
-    business = Pitch.get_pitches(' business')
-    general = Pitch.get_pitches('general')
+    business = Pitch.get_pitchs('business')
+    general = Pitch.get_pitchs('general')
 
     title = 'pitch'
     pitch = Pitch.query.all()
-    return render_template('index.html', title=title, pitch=pitch  business=business, general=general)
+    return render_template('index.html', title=title, pitch=pitch,business=business, general=general)
 
 
-@main.route('/pitches/business')
-def pickup():
-    pitches = Pitch.get_pitches('business')
+@main.route('/pitchs/business')
+def business():
+    pitchs = Pitch.get_pitchs('business')
 
-    return render_template('business.html', pitches=pitches)
+    return render_template('business.html', pitchs=pitchs)
 
 
-@main.route('/pitches/general')
+@main.route('/pitchs/general')
 def general():
-    pitches = Pitch.get_pitches('general')
+    pitchs = Pitch.get_pitchs('general')
 
-    return render_template('general.html', pitches=pitches)
+    return render_template('general.html', pitchs=pitchs)
 
 
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
@@ -54,22 +54,58 @@ def update_profile(uname):
     return render_template('profile/update.html', form=form)
 
 
+@main.route('/pitch/new', methods=['GET', 'POST'])
+@login_required
+def new_pitch():
+    form = PitchForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        pitch = form.text.data
+        category = form.category.data
+
+        new_pitch = Pitch(pitch_title=title, pitch_content=pitch,
+                          category=category, user=current_user, likes=0, dislikes=0)
+        new_pitch.save_pitch()
+        return redirect(url_for('main.index'))
+
+    title = 'New Pitch'
+    return render_template('newpitch.html', title=title, pitch_form=form)
+
+
+
 @main.route('/pitch', methods=['GET', 'POST'])
 def create_pitchs():
     form = CreatePitchs()
     print(current_user.id)
     if form.validate_on_submit():
 
-        pitch = form.pitch.data
 
-        new_pitch = Pitch(pitch=pitch, user_id=current_user.id)
+        # pitch = form.pitch.data
 
-        db.session.add(new_pitch)
-        db.session.commit()
 
+        # title = form.title.data
+        pitch = form.text.data
+        category = form.category.data
+
+        new_pitch = Pitch(pitch=pitch, user_id=current_user.id,
+                          category=category, likes=0, dislikes=0)
+        new_pitch.save_pitch()
         return redirect(url_for('main.index'))
 
-    return render_template('pitch.html', form=form, user=current_user)
+        title = 'New Pitch'
+        return render_template('pitch.html', form=form, user=current_user)
+
+
+
+
+    #     new_pitch = Pitch(pitch=pitch, user_id=current_user.id)
+
+    #     db.session.add(new_pitch)
+    #     db.session.commit()
+
+    #     return redirect(url_for('main.index'))
+
+    # return render_template('pitch.html', form=form, user=current_user)
 
 
 @main.route('/pitch/comment/<int:id>', methods=['GET', 'POST'])
@@ -78,13 +114,23 @@ def create_comments(id):
     form = CommentForm()
    
     if form.validate_on_submit():
+        comment = form.text.data
 
-        comment = form.comment.data
+    #     comment = form.comment.data
 
-        new_comment = Comment(comment=comment, pitch_id=id,user_id=current_user.id)
-        db.session.add(new_comment)
-        db.session.commit()
+    #     new_comment = Comment(comment=comment, pitch_id=id,user_id=current_user.id)
+    #     db.session.add(new_comment)
+    #     db.session.commit()
 
-    comment = Comment.query.filter_by(pitch_id=id).all()
+    # comment = Comment.query.filter_by(pitch_id=id).all()
 
-    return render_template('comment.html', comment=comment, form=form)
+    # return render_template('comment.html', comment=comment, form=form)
+
+
+        new_comment = Comment(comment = comment, user = current_user, pitch_id = pitch)
+
+        new_comment.save_comment()
+
+        comments = Comment.get_comments(pitch)
+
+    return render_template('pitch.html', pitch = pitch, comment_form = form,comment = comment, date = posted_date)
