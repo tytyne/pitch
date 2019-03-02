@@ -75,7 +75,7 @@ def new_pitch():
         return redirect(url_for('.index'))
 
         title = 'New pitch'
-    return render_template('newpitch.html', pitchForm=pitch_form)
+    return render_template('newpitch.html',pitchForm=pitch_form)
 
 
 
