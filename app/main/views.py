@@ -4,7 +4,7 @@ from . import main
 
 from flask import render_template, request, redirect, url_for, abort
 from ..models import User,Role,Pitch,Comment
-from .forms import UpdateProfile, CreatePitchs, CommentForm
+from .forms import UpdateProfile,CommentForm, PitchForm
 from .. import db
 from flask_login import login_required, current_user
 import markdown2
@@ -57,19 +57,25 @@ def update_profile(uname):
 @main.route('/pitch/new', methods=['GET', 'POST'])
 @login_required
 def new_pitch():
-    form = PitchForm()
-    if form.validate_on_submit():
-        title = form.title.data
-        pitch = form.text.data
-        category = form.category.data
+    pitch_form = PitchForm()
+    if pitch_form.validate_on_submit():
+        title = pitch_form.title.data
+        pitch = pitch_form.text.data
+        category = pitch_form.category.data
 
-        new_pitch = Pitch(pitch_title=title, pitch_content=pitch,
-                          category=category, user=current_user, likes=0, dislikes=0)
+        # Updated pitch instance
+        new_pitch = Pitch(
+            pitch_title=title,
+            pitch_content=pitch,
+            category=category,
+            user=current_user)
+
+        # Save pitch method
         new_pitch.save_pitch()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('.index'))
 
-    title = 'New Pitch'
-    return render_template('newpitch.html', title=title, pitch_form=form)
+        title = 'New pitch'
+    return render_template('newpitch.html', pitchForm=pitch_form)
 
 
 
@@ -78,12 +84,6 @@ def create_pitchs():
     form = CreatePitchs()
     print(current_user.id)
     if form.validate_on_submit():
-
-
-        # pitch = form.pitch.data
-
-
-        # title = form.title.data
         pitch = form.text.data
         category = form.category.data
 
@@ -93,7 +93,7 @@ def create_pitchs():
         return redirect(url_for('main.index'))
 
         title = 'New Pitch'
-        return render_template('pitch.html', form=form, user=current_user)
+    return render_template('pitch.html', form=form, user=current_user)
 
 
 
@@ -134,3 +134,4 @@ def create_comments(id):
         comments = Comment.get_comments(pitch)
 
     return render_template('pitch.html', pitch = pitch, comment_form = form,comment = comment, date = posted_date)
+
