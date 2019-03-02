@@ -68,7 +68,7 @@ def new_pitch():
             pitch_title=title,
             pitch_content=pitch,
             category=category,
-            user=current_user)
+            user_id=current_user.id)
 
         # Save pitch method
         new_pitch.save_pitch()
